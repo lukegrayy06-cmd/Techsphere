@@ -102,6 +102,7 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
@@ -109,6 +110,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ] if (BASE_DIR / 'static').exists() else []
+
+# Prevent WhiteNoise from crashing on missing third-party CSS assets (e.g. CKEditor)
+WHITENOISE_MANIFEST_STRICT = False
 
 # WhiteNoise storage parameter for legacy third-party package checks
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
