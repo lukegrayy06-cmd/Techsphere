@@ -110,6 +110,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ] if (BASE_DIR / 'static').exists() else []
 
+# WhiteNoise storage parameter for legacy third-party package checks
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Configure Storages for Django 4.2+ / 5.0+ / 6.0+
 STORAGES = {
     "default": {
