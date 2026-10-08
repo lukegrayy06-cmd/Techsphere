@@ -1,0 +1,111 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ user.username }}'s Profile - TechSphere{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row g-4">
+        <!-- Left Sidebar: User Card -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-3 text-center p-4">
+                <div class="position-relative mx-auto mb-3" style="width: 120px; height: 120px;">
+                    {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="rounded-circle img-fluid border border-3 border-primary shadow-sm" style="width: 120px; height: 120px; object-fit: cover;">
+                    {% else %}
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fs-1 fw-bold shadow-sm" style="width: 120px; height: 120px;">
+                            {{ user.username|first|upper }}
+                        </div>
+                    {% endif %}
+                </div>
+                <h4 class="fw-bold mb-1">{{ user.username }}</h4>
+                <p class="text-muted small mb-3">{{ user.email }}</p>
+                
+                <hr class="my-3">
+
+                <!-- User Bio Preview -->
+                <div class="text-start mb-3">
+                    <h6 class="fw-bold text-uppercase text-muted extra-small">Bio</h6>
+                    <p class="small text-secondary mb-0">
+                        {% if user.profile.bio %}
+                            {{ user.profile.bio }}
+                        {% else %}
+                            <em class="text-muted">No bio added yet.</em>
+                        {% endif %}
+                    </p>
+                </div>
+
+                <!-- Contact & Social Preview -->
+                <div class="text-start d-flex flex-column gap-2 small">
+                    {% if user.profile.phone %}
+                        <div><i class="bi bi-telephone text-primary me-2"></i>{{ user.profile.phone }}</div>
+                    {% endif %}
+                    {% if user.profile.instagram %}
+                        <div><i class="bi bi-instagram text-danger me-2"></i><a href="{{ user.profile.instagram }}" target="_blank" class="text-decoration-none">Instagram</a></div>
+                    {% endif %}
+                    {% if user.profile.facebook %}
+                        <div><i class="bi bi-facebook text-primary me-2"></i><a href="{{ user.profile.facebook }}" target="_blank" class="text-decoration-none">Facebook</a></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Edit Profile Form -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-3 p-4">
+                <h4 class="fw-bold text-dark mb-4"><i class="bi bi-person-gear text-primary me-2"></i>Edit Profile Settings</h4>
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Account Details -->
+                    <h6 class="fw-bold text-uppercase text-muted extra-small mb-3">Account Info</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Username</label>
+                            {{ u_form.username }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email Address</label>
+                            {{ u_form.email }}
+                        </div>
+                    </div>
+
+                    <!-- Profile Details -->
+                    <h6 class="fw-bold text-uppercase text-muted extra-small mb-3">Public Profile</h6>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Profile Avatar</label>
+                        {{ p_form.avatar }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Bio</label>
+                        {{ p_form.bio }}
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Phone Number</label>
+                            {{ p_form.phone }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Instagram Link</label>
+                            {{ p_form.instagram }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Facebook Link</label>
+                            {{ p_form.facebook }}
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary fw-semibold px-4 py-2">
+                            <i class="bi bi-check-lg me-1"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
